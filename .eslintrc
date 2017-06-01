@@ -101,7 +101,7 @@
     "no-caller": 2,             // disallow use of arguments.caller or arguments.callee
     "no-case-declarations": 0,  // disallow lexical declarations in case clauses
     "no-div-regex": 2,          // disallow division operators explicitly at beginning of regular expression
-    "no-else-return": 2,        // disallow else after a return in an if
+    "no-else-return": 0,        // disallow else after a return in an if
     "no-empty-pattern": 0,      // disallow use of empty destructuring patterns
     "no-eq-null": 2,            // disallow comparisons to null without a type-checking operator
     "no-eval": 2,               // disallow use of eval()
