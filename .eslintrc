@@ -87,7 +87,7 @@
     "accessor-pairs": 2,        // Enforces getter/setter pairs in objects
     "block-scoped-var": 1,      // treat var statements as if they were block scoped
     "complexity": [1, 20],      // specify the maximum cyclomatic complexity allowed in a program
-    "consistent-return": 2,     // require return statements to either always or never specify values
+    "consistent-return": 0,     // require return statements to either always or never specify values
     "curly": [2, "all"],        // specify curly brace conventions for all control statements
     "default-case": 2,          // require default case in switch statements
     "dot-location": [
@@ -229,7 +229,8 @@
     ],                                // require or disallow padding inside computed properties (fixable)
     "consistent-this": [
       2,
-      "self"
+      "self",
+      "user"  // just for this app
     ],                                // enforces consistent naming when capturing the current execution context
     "eol-last": 2,                    // enforce newline at the end of file, with no multiple empty lines (fixable)
     "func-names": 0,                  // require function expressions to have a name
@@ -368,7 +369,7 @@
     ////////// ECMAScript 6 //////////
 
     "arrow-body-style": 0,           // require braces in arrow function body
-    "arrow-parens": 2,               // require parens in arrow function arguments
+    "arrow-parens": 0,               // require parens in arrow function arguments
     "arrow-spacing": 2,              // require space before/after arrow function's arrow (fixable)
     "constructor-super": 0,          // verify calls of super() in constructors
     "generator-star-spacing": 0,     // enforce spacing around the * in generator functions (fixable)
