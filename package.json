@@ -1,0 +1,19 @@
+{
+  "name": "shopped-app",
+  "version": "1.0.0",
+  "description": "Eccommerce app build in NodeJs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/user1990/shopped-app.git"
+  },
+  "author": "Paulius Rimgaila",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/user1990/shopped-app/issues"
+  },
+  "homepage": "https://github.com/user1990/shopped-app#readme"
+}
