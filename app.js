@@ -8,9 +8,10 @@ const engine = require('ejs-mate');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('express-flash');
-const MongoStore = require('connect-mongo/es5')(session);
+const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
 
+const secret = require('./config/secret');
 const User = require('./models/user');
 
 // Initialize app
@@ -18,7 +19,7 @@ const app = express();
 
 // Connect to mongoDB
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://root:test123@ds119210.mlab.com:19210/ecommerce', err => {
+mongoose.connect(secret.database, err => {
   if (err) {
     console.log(err);
   } else {
@@ -33,19 +34,34 @@ app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(session({
+  resave: true,
+  saveUninitialized: true,
+  secret: secret.secretKey,
+  store: new MongoStore({ url: secret.database, autoReconnect: true })
+}));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(function(req, res, next) {
+  res.locals.user = req.user;
+  next();
+});
 
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');
 
-const mainRoutes = require('./routes/main');
-const userRoutes = require('./routes/user');
+var mainRoutes = require('./routes/main');
+var userRoutes = require('./routes/user');
+
 app.use(mainRoutes);
 app.use(userRoutes);
 
 // Listen to port
-app.listen(4000, err => {
+app.listen(secret.port, err => {
   if (err) { throw err; }
-  console.log('==============================');
-  console.log('Server is running on port 4000');
-  console.log('==============================');
+  console.log('=======================================');
+  console.log('Server is running on port' + secret.port);
+  console.log('=======================================');
 });
