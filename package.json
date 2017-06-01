@@ -1,7 +1,7 @@
 {
   "name": "shopped-app",
   "version": "1.0.0",
-  "description": "Eccommerce app build in NodeJs",
+  "description": "Ecommerce app build in NodeJs",
   "main": "app.js",
   "scripts": {
     "update": "node wipe-dependencies.js && rm -rf node_modules && npm update --save"
