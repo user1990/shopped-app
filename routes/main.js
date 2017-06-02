@@ -1,11 +1,27 @@
-const router = require('express').Router();
+'use strict';
 
-router.get('/', function(req, res) {
+const router = require('express').Router();
+const User = require('../models/user');
+const Product = require('../models/product');
+
+router.get('/', (req, res) => {
   res.render('main/home');
 });
 
-router.get('/about', function(req, res) {
+router.get('/about', (req, res) => {
   res.render('main/about');
+});
+
+router.get('/products/:id', (req, res, next) => {
+  Product
+    .find({ category: req.params.id })
+    .populate('category')
+    .exec((err, products) => {
+      if (err) { return next(err); }
+      res.render('main/category', {
+        products: products
+      });
+    });
 });
 
 module.exports = router;
