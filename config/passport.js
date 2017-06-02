@@ -2,7 +2,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
 
-// Serialize and deserialize
+// serialize and deserialize
 passport.serializeUser((user, done) => {
   done(null, user._id);
 });
@@ -13,13 +13,14 @@ passport.deserializeUser((id, done) => {
   });
 });
 
+
 // Middleware
 passport.use('local-login', new LocalStrategy({
   usernameField: 'email',
   passwordField: 'password',
   passReqToCallback: true
 }, function(req, email, password, done) {
-  User.findOne({ email: email}, function(err, user) {
+  User.findOne({ email: email}, (err, user) => {
     if (err) { return done(err); }
 
     if (!user) {
@@ -33,11 +34,10 @@ passport.use('local-login', new LocalStrategy({
   });
 }));
 
-// Custom function to validate
-exports.isAuthenticated = (req, res, next) => {
+// custom function to validate
+exports.isAuthenticated = function(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
   res.redirect('/login');
 };
-
