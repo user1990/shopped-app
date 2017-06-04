@@ -26,6 +26,7 @@ router.get('/profile', (req, res, next) => {
 });
 
 router.get('/signup', function(req, res, next) {
+  // if (err) { return next(err); }
   res.render('accounts/signup', {
     errors: req.flash('errors')
   });
@@ -40,7 +41,7 @@ router.post('/signup', (req, res, next) => {
   user.profile.picture = user.gravatar();
 
   User.findOne({ email: req.body.email }, (err, existingUser) => {
-
+    if (err) { return next(err); }
     if (existingUser) {
       req.flash('errors', 'Account with that email address already exists');
       return res.redirect('/signup');

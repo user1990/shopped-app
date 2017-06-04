@@ -2,7 +2,8 @@
 const router = require('express').Router();
 const Category = require('../models/category');
 
-router.get('/add-category', (req, res, next) => {
+router.get('/add-category', (req, res, err, next) => {
+  if (err) { return next(err); }
   res.render('admin/add-category', { message: req.flash('success') });
 });
 
