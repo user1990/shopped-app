@@ -15,6 +15,8 @@ const secret = require('./config/secret');
 const User = require('./models/user');
 const Category = require('./models/category');
 
+const cartLength = require('./middlewares/middlewares');
+
 // Initialize app
 const app = express();
 
@@ -50,6 +52,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use(cartLength);
 app.use((req, res, next) => {
   Category.find({}, (err, categories) => {
     if (err) { return next(err); }

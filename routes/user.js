@@ -1,6 +1,8 @@
 'use strict';
 const router = require('express').Router();
 const User = require('../models/user');
+const Cart = require('../models/cart');
+const async = require('async');
 const passport = require('passport');
 const passportConf = require('../config/passport');
 
@@ -32,31 +34,43 @@ router.get('/signup', function(req, res, next) {
   });
 });
 
-router.post('/signup', (req, res, next) => {
-  let user = new User();
+router.post('/signup', function(req, res, next) {
 
-  user.profile.name = req.body.name;
-  user.email = req.body.email;
-  user.password = req.body.password;
-  user.profile.picture = user.gravatar();
+  async.waterfall([
+    callback => {
+      let user = new User();
 
-  User.findOne({ email: req.body.email }, (err, existingUser) => {
-    if (err) { return next(err); }
-    if (existingUser) {
-      req.flash('errors', 'Account with that email address already exists');
-      return res.redirect('/signup');
-    } else {
-      user.save((err, user) => {
+      user.profile.name = req.body.name;
+      user.email = req.body.email;
+      user.password = req.body.password;
+      user.profile.picture = user.gravatar();
+
+      User.findOne({ email: req.body.email }, (err, existingUser, next) => {
         if (err) { return next(err); }
+        if (existingUser) {
+          req.flash('errors', 'Account with that email address already exists');
+          return res.redirect('/signup');
+        } else {
+          user.save((err, user) => {
+            if (err) { return next(err); }
+            callback(null, user);
+          });
+        }
+      });
+    },
 
+    user => {
+      let cart = new Cart();
+      cart.owner = user._id;
+      cart.save(function(err) {
+        if (err) { return next(err); }
         req.logIn(user, function(err) {
           if (err) { return next(err); }
           res.redirect('/profile');
-
         });
       });
     }
-  });
+  ]);
 });
 
 
