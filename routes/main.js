@@ -1,7 +1,13 @@
+'use strict';
+
 const router = require('express').Router();
 const User = require('../models/user');
 const Product = require('../models/product');
 const Cart = require('../models/cart');
+
+const async = require('async');
+
+const stripe = require('stripe')('sk_test_ahNpgvx7uraviqkprIWq558I');
 
 function paginate(req, res, next) {
 
@@ -82,7 +88,7 @@ router.post('/product/:product_id', (req, res, next) => {
 });
 
 router.post('/remove', (req, res, next) => {
-  Cart.findOne({ owner: req.body_id }, (err, foundCart) => {
+  Cart.findOne({ owner: req.user._id }, (err, foundCart) => {
     foundCart.items.pull(String(req.body.item));
 
     foundCart.total = (foundCart.total - parseFloat(req.body.price)).toFixed(2);
@@ -152,6 +158,52 @@ router.get('/product/:id', (req, res, next) => {
     res.render('main/product', {
       product: product
     });
+  });
+});
+
+router.post('/payment', (req, res, next) => {
+  let stripeToken = req.body.stripeToken;
+  let currentCharges = Math.round(req.body.stripeToken * 100);
+  stripe.customers.create({
+    source: stripeToken
+  }).then(customer => {
+    return stripe.charges.create({
+      amount: currentCharges,
+      currency: 'usd',
+      customer: customer.id
+    });
+  }).then(charge => {
+    async.waterfall([
+      callback => {
+        Cart.findOne({ owner: req.user._id }, (err, cart) => {
+          callback(err, cart);
+        });
+      },
+      (cart, callback) => {
+        User.findOne({ _id: req.user._id }, (err, user) => {
+          if (user) {
+            for (let i = 0; i < cart.items.length; i++) {
+              user.history.push({
+                item: cart.items[i].item,
+                paid: cart.items[i].price
+              });
+            }
+
+            user.save((err, user) => {
+              if (err) { return next(err); }
+              callback(err, user);
+            });
+          }
+        });
+      },
+      user => {
+        Cart.update({ owner: user._id}, { $set: { items: [], total: 0 }}, (err, updated) => {
+          if (updated) {
+            res.redirect('/profile');
+          }
+        });
+      }
+    ]);
   });
 });
 
