@@ -23,3 +23,6 @@ npm install
 ```
 nodemon
 ```
+```
+type in browser: http://localhost:3000/
+```
