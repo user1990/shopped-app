@@ -163,7 +163,7 @@ router.get('/product/:id', (req, res, next) => {
 
 router.post('/payment', (req, res, next) => {
   let stripeToken = req.body.stripeToken;
-  let currentCharges = Math.round(req.body.stripeToken * 100);
+  let currentCharges = Math.round(req.body.stripeMoney * 100);
   stripe.customers.create({
     source: stripeToken
   }).then(customer => {
