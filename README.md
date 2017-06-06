@@ -12,3 +12,14 @@ Ecommerce Web application build in NodeJs
 - Mongoosastic: NodeJs library for ElasticSearch + Mongodb
 - Facebook login
 - Bcrypt: Hash passwords
+
+## Run app
+```
+Clone Repository
+```
+```
+npm install
+```
+```
+nodemon
+```
