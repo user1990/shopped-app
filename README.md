@@ -13,16 +13,16 @@ Ecommerce Web application build in NodeJs
 - Facebook login
 - Bcrypt: Hash passwords
 
-## Run app
+## Setup
+### Clone Repository
+### Run commands
 ```
-1. Clone Repository
-```
-```
-2. npm install
-```
-```
-3. nodemon
+npm install
 ```
 ```
-4. type in browser: http://localhost:3000/
+nodemon
+```
+### Run in browser
+```
+Type: http://localhost:3000/
 ```
