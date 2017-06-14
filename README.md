@@ -15,14 +15,14 @@ Ecommerce Web application build in NodeJs
 
 ## Run app
 ```
-Clone Repository
+1. Clone Repository
 ```
 ```
-npm install
+2. npm install
 ```
 ```
-nodemon
+3. nodemon
 ```
 ```
-type in browser: http://localhost:3000/
+4. type in browser: http://localhost:3000/
 ```
