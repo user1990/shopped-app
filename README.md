@@ -14,15 +14,15 @@ Ecommerce Web application build in NodeJs
 - Bcrypt: Hash passwords
 
 ## Setup
-### Clone Repository
-### Run commands
+### 1. Clone Repository
+### 2. Run commands
 ```
 npm install
 ```
 ```
 nodemon
 ```
-### Run in browser
+### 3. Run in browser
 ```
 Type: http://localhost:3000/
 ```
