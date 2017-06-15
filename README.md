@@ -1,5 +1,6 @@
 # shopped-app
-Ecommerce Web application build in NodeJs 
+Ecommerce Web application build in NodeJs.
+Version 1.0
 
 ## Features
 
@@ -26,3 +27,7 @@ nodemon
 ```
 Type: http://localhost:3000/
 ```
+
+## Deployed
+
+The app is deployed [here](https://desolate-dusk-26812.herokuapp.com/) at Heroku.
